@@ -16,7 +16,6 @@ catch (Exception ex) {
 
 static WebApplication ConfigureDependenciesAndBuildApp(string[] args) {
   var builder = WebApplication.CreateBuilder(args);
-  ///StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);  
   _ = builder.Services.AddControllers();
   return builder.Build();
 }
@@ -29,7 +28,6 @@ static WebApplication MapBlazorApp(WebApplication app) {
 
   _ = app //frontend
     .UseStaticFiles()
-    .UseBlazorFrameworkFiles()
     .UseRouting()
     .UseEndpoints(static y => _ = y.MapFallbackToFile("index.html"));
 
@@ -37,7 +35,6 @@ static WebApplication MapBlazorApp(WebApplication app) {
 }
 
 static async Task<int> ConfigurePipelineAndRun(WebApplication app) {
-  app.UseWebAssemblyDebugging();//since this is a repro
   await MapBlazorApp(app).RunAsync();
   return 0;
 }
